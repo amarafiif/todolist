@@ -3,6 +3,12 @@ window.addEventListener('load', () => {
     const input = document.querySelector("#new-task-input");
     const listEl = document.querySelector("#tasks");
 
+    // Load tasks from local storage on page load
+    const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    for (const taskText of savedTasks) {
+        createTaskElement(taskText);
+    }
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -13,6 +19,13 @@ window.addEventListener('load', () => {
             return;
         }
 
+        createTaskElement(task);
+        saveTasksToLocalStorage();
+
+        input.value = "";
+    });
+
+    function createTaskElement(taskText) {
         const taskEl = document.createElement("div");
         taskEl.classList.add("task");
 
@@ -24,7 +37,7 @@ window.addEventListener('load', () => {
         const taskInputEl = document.createElement("input");
         taskInputEl.classList.add("text");
         taskInputEl.type = "text";
-        taskInputEl.value = task;
+        taskInputEl.value = taskText;
         taskInputEl.setAttribute("readonly", "readonly");
 
         taskContentEl.appendChild(taskInputEl);
@@ -46,22 +59,26 @@ window.addEventListener('load', () => {
 
         listEl.appendChild(taskEl);
 
-        input.value = "";
-
         taskEditEl.addEventListener('click', () => {
-            if (taskEditEl.innerText.toLowerCase() == "edit")
-            {
+            if (taskInputEl.getAttribute("readonly") === "readonly") {
                 taskInputEl.removeAttribute("readonly");
                 taskInputEl.focus();
-                taskInputEl.innerText = "Save";
-            } else{
+                taskEditEl.innerHTML = "Save";
+            } else {
                 taskInputEl.setAttribute("readonly", "readonly");
-                taskInputEl.innerText = "Edit";
+                taskEditEl.innerHTML = "Edit";
+                saveTasksToLocalStorage();
             }
         });
 
         taskDeleteEl.addEventListener('click', () => {
             listEl.removeChild(taskEl);
-        })
-    })
-})
+            saveTasksToLocalStorage();
+        });
+    }
+
+    function saveTasksToLocalStorage() {
+        const tasks = Array.from(document.querySelectorAll(".text")).map(input => input.value);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+});

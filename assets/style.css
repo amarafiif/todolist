@@ -12,7 +12,15 @@
     box-sizing: border-box;
     margin: 0;
     font-family: 'Poppins';
+}
 
+#title {
+    font-weight: 800;
+}
+
+#subtitle {
+    opacity: 0.7;
+    margin-bottom: 50px;
 }
 
 body {
@@ -32,7 +40,7 @@ header {
 
 header h1 {
     font-size: 2.5rem;
-    font-weight: 400;
+    font-weight: 800;
     color: gray;
     margin-bottom: 1rem;
 }
@@ -58,7 +66,9 @@ input, button
     border-radius: 1rem;
     margin-right: 1rem;
     color: var(--light);
-    font-size: 1.25rem;
+    font-size: 1.10rem;
+    font-weight: 300;
+    opacity: 0.9;
 }
 
 #new-task-input::placeholder {
@@ -66,14 +76,14 @@ input, button
 }
 
 #new-task-submit {
-    color: var(--pink);
+    color: var(--light);
     font-size: 1.25rem;
-    font-weight: 700;
     background-image: linear-gradient(to right, var(--pink), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     cursor: pointer;
     transition: 0.4s;
+    border-radius: 20px;
+    padding: 0 20px;
+    border: none;
 }
 
 #new-task-submit:hover {
